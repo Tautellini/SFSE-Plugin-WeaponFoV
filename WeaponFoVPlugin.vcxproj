@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>MyFirstPlugin</ProjectName>
+    <ProjectName>WeaponFoVPlugin</ProjectName>
     <ProjectGuid>{4D608E7E-FD4F-4725-BEC0-3B25D5B79A9F}</ProjectGuid>
     <RootNamespace>ScaleformTranslationPP</RootNamespace>
     <Keyword>Win32Proj</Keyword>
@@ -26,7 +26,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -57,7 +57,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..;$(ProjectDir)include;$(ProjectDir);C:\dev\StarfieldScriptExtender\sfse\sfse\..;C:\dev\StarfieldScriptExtender\sfse\sfse_common\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;PLUGIN_EXAMPLE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -65,7 +65,6 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ForcedIncludeFiles>common/IPrefix.h</ForcedIncludeFiles>
       <ExceptionHandling>Sync</ExceptionHandling>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -75,6 +74,7 @@
       <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <UseFullPaths>false</UseFullPaths>
+      <ShowIncludes>true</ShowIncludes>
     </ClCompile>
     <Link>
       <ModuleDefinitionFile>exports.def</ModuleDefinitionFile>
@@ -147,21 +147,21 @@
     <None Include="exports.def" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\skse64\skse64.vcxproj">
-      <Project>{7028b79c-06e3-4d9a-b38c-1dc3680b1bdb}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\skse64_common\skse64_common.vcxproj">
-      <Project>{5fd1c08d-db80-480c-a1c6-f0920005cd13}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="version.rc" />
+    <ProjectReference Include="..\..\build\sfse\sfse.vcxproj">
+      <Project>{5a951943-0613-3004-b46d-36fcd2b43eba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\build\sfse\sfse_common\sfse_common.vcxproj">
+      <Project>{095625d4-2aa9-39b4-96d1-f4e03901ea02}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\build\ZERO_CHECK.vcxproj">
+      <Project>{98df1ff8-fef9-3fd0-a6b3-998bf4f7b9c9}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

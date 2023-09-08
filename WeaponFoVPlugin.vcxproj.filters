@@ -21,7 +21,4 @@
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="version.rc" />
-  </ItemGroup>
 </Project>

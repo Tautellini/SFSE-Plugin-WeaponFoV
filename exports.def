@@ -1,4 +1,4 @@
-LIBRARY	"MyFirstPlugin"
+LIBRARY	"WeaponFoVPlugin"
 EXPORTS
-SKSEPlugin_Query
-SKSEPlugin_Load
+SFSEPlugin_Version
+SFSEPlugin_Load

@@ -1,41 +1,48 @@
-﻿#include "common/IDebugLog.h"  // IDebugLog
-#include "skse64_common/skse_version.h"  // RUNTIME_VERSION
-#include "skse64/PluginAPI.h"  // SKSEInterface, PluginInfo
-
+﻿#include <windows.h>
+#include "sfse_common/Log.h"
+#include "sfse_common/sfse_version.h"
+#include "sfse/PluginAPI.h"
 #include <ShlObj.h>  // CSIDL_MYDOCUMENTS
-
 #include "version.h"  // VERSION_VERSTRING, VERSION_MAJOR
+#include "sfse_common/Relocation.h"
+#include "sfse_common/SafeWrite.h"
+#include <thread>
 
+RelocAddr <uintptr_t*> weaponFoV = 0x79FD448;
 
 extern "C" {
-	bool SKSEPlugin_Query(const SKSEInterface* a_skse, PluginInfo* a_info)
+	SFSEPluginVersionData SFSEPlugin_Version = {
+		SFSEPluginVersionData::kVersion,
+		WFOV_VERSION,
+		WFOV_NAME,
+		WFOV_AUTHOR,
+		0,	// not address independent
+		0,	// not structure independent
+		{ RUNTIME_VERSION_1_7_23, 0 },
+		0,	// works with any version of the script extender. you probably do not need to put anything here
+		0, 0,	// set these reserved fields to 0
+	};
+
+	void UpdateFoVValue() 
 	{
-		gLog.OpenRelative(CSIDL_MYDOCUMENTS, "\\My Games\\Skyrim Special Edition\\SKSE\\MyFirstPlugin.log");
-		gLog.SetPrintLevel(IDebugLog::kLevel_DebugMessage);
-		gLog.SetLogLevel(IDebugLog::kLevel_DebugMessage);
+		_MESSAGE("Thread for updating FoV Values started");
 
-		_MESSAGE("MyFirstPlugin v%s", MYFP_VERSION_VERSTRING);
+		float newFoV = 120;
 
-		a_info->infoVersion = PluginInfo::kInfoVersion;
-		a_info->name = "MyFirstPlugin";
-		a_info->version = MYFP_VERSION_MAJOR;
-
-		if (a_skse->isEditor) {
-			_FATALERROR("[FATAL ERROR] Loaded in editor, marking as incompatible!\n");
-			return false;
-		} else if (a_skse->runtimeVersion != RUNTIME_VERSION_1_5_73) {
-			_FATALERROR("[FATAL ERROR] Unsupported runtime version %08X!\n", a_skse->runtimeVersion);
-			return false;
+		while (true) {
+			safeWriteBuf(weaponFoV.getUIntPtr(), &newFoV, sizeof(float));
+			Sleep(1000);
 		}
-
-		return true;
 	}
 
-
-	bool SKSEPlugin_Load(const SKSEInterface* a_skse)
+	void SFSEPlugin_Load(const SFSEInterface* sfse)
 	{
-		_MESSAGE("[MESSAGE] MyFirstPlugin loaded");
+		DebugLog::openRelative(CSIDL_MYDOCUMENTS, "\\My Games\\" SAVE_FOLDER_NAME "\\SFSE\\Logs\\sfse-plugin-weaponfov.txt");
+		_MESSAGE("WeaponFoVPlugin loaded");
 
-		return true;
+		std::thread loopThread (UpdateFoVValue);
+
+		_MESSAGE("detaching thread for overriding weapon fov values");
+		loopThread.detach();
 	}
 };
