@@ -7,6 +7,7 @@
 #include "sfse_common/Relocation.h"
 #include "sfse_common/SafeWrite.h"
 #include <thread>
+#include <SimpleIni.h>
 
 RelocAddr <uintptr_t*> weaponFoV = 0x79FD448;
 
@@ -27,7 +28,10 @@ extern "C" {
 	{
 		_MESSAGE("Thread for updating FoV Values started");
 
-		float newFoV = 120;
+		CSimpleIniA ini;
+		ini.SetUnicode();
+		ini.LoadFile(L"Data\\SFSE\\Plugins\\weaponfov.ini");
+		float newFoV = ini.GetDoubleValue("global", "weaponfov", 120.0f);
 
 		while (true) {
 			safeWriteBuf(weaponFoV.getUIntPtr(), &newFoV, sizeof(float));
