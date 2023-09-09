@@ -1,5 +1,13 @@
 # Weapon FoV SFSE Plugin  
 
+[OUTDATED]
+There is a more sophisticated solution: https://github.com/flipdeezy/SFSE_WeaponModelFOV
+You can download the mod also from Nexusmods: https://www.nexusmods.com/starfield/mods/1331
+
+This Repo will not be updated, but remain as an example for anyone trying to do a simple SFSE Plugin.
+
+---
+
 This is a [Starfield Script Extender](https://github.com/ianpatt/sfse) plugin that is setting up the Weapon FoV.
 
 
